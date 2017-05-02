@@ -1,1 +1,0 @@
-# goCD Blue/Green deployment
