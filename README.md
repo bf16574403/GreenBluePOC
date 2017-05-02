@@ -10,8 +10,11 @@ On every node that the go agent is running do, to allow the agent to run docker 
     sudo EDITOR=nano visudo
     # At the end of the file add
     go ALL = NOPASSWD: /bin/docker
+    
 Set your Gitlab CI credentials i.e. the Username and Password as two secret variables - USERNAME and PASSWORD as referenced in the build script
+
 Also set the above credential as a kubernetes secret that will be mounted to all pods with
+
 kubectl \
 create \
 secret \
@@ -29,21 +32,27 @@ Assuming you do your development in the master branch (you could do it within th
     git add -A
     git commit -m ''
     git push origin blue
+    
 This will trigger a pipeline within goCD that will run the ./build.sh script.
 
 The working of the script is documented via comments within the file. But here's a breakdown:
 
 Auth to Gitlab (The USERNAME and PASSWORD are set as secret variables within goCD)
+
 Build a new image with the new code
+
 Push the image to Gitlab CI
+
 Perform a rolling update to update the image being used by the blue (or green) deployment
 Change the proxy.default.svc service to point to the blue (or green) deployment
+
 To deploy to Green
 
     git checkout green
     git add -A
     git commit -m ''
     git push origin green
+    
 How it works
 
 When you git push origin green the service updates to point to the green deployment
